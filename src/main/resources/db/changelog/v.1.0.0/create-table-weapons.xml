@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-weapon" author="rustamscode">
+        <comment>Создание таблицы weapons для хранения информации об оружии</comment>
+
+        <createTable tableName="weapons">
+            <column name="id" type="UUID"
+                    remarks="Первичный ключ, UUID (генерируется JPA)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"
+                    remarks="Дата и время создания записи (устанавливается автоматически)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="last_modified_date" type="TIMESTAMP WITHOUT TIME ZONE"
+                    remarks="Дата и время последнего обновления записи (обновляется автоматически)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_deleted" type="BOOLEAN" defaultValueBoolean="false"
+                    remarks="Флаг мягкого удаления (true - удалено, false - активно)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="version" type="INT"
+                    remarks="Версия записи для оптимистичных блокировок">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(100)"
+                    remarks="Уникальное название оружия">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="type" type="VARCHAR(50)"
+                    remarks="Тип оружия (из перечисления WeaponType, хранится как строка)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="duration" type="NUMERIC(21)"
+                    remarks="Длительность действия">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="max_spray" type="NUMERIC(10, 5)"
+                    remarks="Максимальный разброс при стрельбе">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="total_ammo_count" type="INT"
+                    remarks="Общее максимальное количество патронов">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="damage" type="NUMERIC(10, 2)"
+                    remarks="Базовый урон, наносимый оружием">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="ammo_in_mac" type="INT"
+                    remarks="Количество патронов в магазине">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="create-weapons-indexes" author="rustamscode">
+        <comment>Создание индексов для таблицы weapons</comment>
+
+        <createIndex indexName="idx_weapons_is_deleted" tableName="weapons">
+            <column name="is_deleted"/>
+        </createIndex>
+
+        <createIndex indexName="idx_weapons_type" tableName="weapons">
+            <column name="type"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

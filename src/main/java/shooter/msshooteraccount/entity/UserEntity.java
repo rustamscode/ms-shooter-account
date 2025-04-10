@@ -28,7 +28,7 @@ public class UserEntity extends BaseEntity {
   @Column(name = "is_active", nullable = false)
   private Boolean isActive;
 
-  @Column(name = "in_selection")
+  @Column(name = "in_selection", nullable = false)
   private Boolean inSelection;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
