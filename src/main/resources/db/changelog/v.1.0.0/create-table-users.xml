@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-table-users" author="rustamscode">
+        <comment>Создание таблицы users для хранения информации о пользователях</comment>
+
+        <createTable tableName="users" remarks="Таблица для хранения информации о пользователях">
+            <column name="id" type="UUID" remarks="Первичный ключ, UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"
+                    remarks="Дата и время создания">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="last_modified_date" type="TIMESTAMP WITHOUT TIME ZONE"
+                    remarks="Дата и время последнего обновления">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_deleted" type="BOOLEAN" defaultValueBoolean="false"
+                    remarks="Флаг мягкого удаления">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="version" type="INT"
+                    remarks="Версия для оптимистичных блокировок">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)" remarks="Имя пользователя">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="false"
+                    remarks="Флаг активности пользователя">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="in_selection" type="BOOLEAN" defaultValueBoolean="false"
+                    remarks="Флаг участия пользователя в некоторой подборке">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-users-indexes" author="rustamscode">
+        <comment>Создание индексов для таблицы users</comment>
+
+        <createIndex indexName="idx_users_is_active" tableName="users">
+            <column name="is_active"/>
+        </createIndex>
+
+        <createIndex indexName="idx_users_is_deleted" tableName="users">
+            <column name="is_deleted"/>
+        </createIndex>
+
+        <createIndex indexName="idx_users_name" tableName="users">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

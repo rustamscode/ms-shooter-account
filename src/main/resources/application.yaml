@@ -1,0 +1,23 @@
+spring:
+  application: name=ms-shooter-account
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shooter_db   #  ${DB_URL}
+    username: postgres     # ${DB_USERNAME}
+    password: pass           # ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    default-schema: account  # ${DB_SCHEMA}
+files:
+  path:
+    startup-message: startup-message.txt
+server:
+  port: 8080
+  servlet:
+    context-path: /shooter
